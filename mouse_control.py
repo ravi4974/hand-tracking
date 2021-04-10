@@ -54,7 +54,7 @@ class MouseControl:
         index_mcp=self.result[HandDetector.codes.INDEX_FINGER_MCP]
         middle_mcp=self.result[HandDetector.codes.MIDDLE_FINGER_MCP]
 
-        if self.__get_distance([0,cx,cy,0],[0,pcx,pcy,0])>self.__get_distance(index_mcp,middle_mcp)*0.5:
+        if self.__get_distance([0,cx,cy,0],[0,pcx,pcy,0])>self.__get_distance(index_mcp,middle_mcp)*0.1:
             win32api.SetCursorPos((cx,cy))
             self.__values['PREV_CX']=cx
             self.__values['PREV_CY']=cy
@@ -71,7 +71,7 @@ class MouseControl:
 
         LEFT_CLICKED=self.__values.get('LEFT_CLICKED',False)
 
-        if tip_distance<mcp_distance and not LEFT_CLICKED and index_tip[2]<thumb_tip[2]:
+        if tip_distance<mcp_distance*0.8 and not LEFT_CLICKED and index_tip[2]<thumb_tip[2]:
             self.__values['LEFT_CLICKED']=True
             win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,0,0)
         elif tip_distance>mcp_distance*2 and LEFT_CLICKED:
@@ -82,10 +82,12 @@ class MouseControl:
         middle_mcp=self.result[HandDetector.codes.MIDDLE_FINGER_MCP]
         z=middle_mcp[3]
 
-        scroll_value=int(np.interp(z,[-15,15],[-20,40]))
+        scroll_value=int(np.interp(z,[-15,15],[-30,40]))
 
-        if abs(scroll_value)<15:
+        if abs(scroll_value)<20:
             scroll_value=0
+        
+        # print(scroll_value)
 
         win32api.mouse_event(win32con.MOUSEEVENTF_WHEEL,0,0,scroll_value,0)
 
