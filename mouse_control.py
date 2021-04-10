@@ -22,17 +22,16 @@ class MouseControl:
 
         return int(math.hypot(x2-x1,y2-y1,z2-z1))
     
-    def __set_viewport_values(self,img):
-        if not self.img_width and not self.img_height:
-            self.img_height,self.img_width,_=img.shape
-            
-            self.viewport_start_x=self.viewport_offset_pct*self.img_width
-            self.viewport_end_x=self.img_width-self.viewport_start_x
+    def __set_viewport_values(self):
+        self.img_width,self.img_height=self.cam.get_dimension()
+        
+        self.viewport_start_x=self.viewport_offset_pct*self.img_width
+        self.viewport_end_x=self.img_width-self.viewport_start_x
 
-            self.viewport_start_y=self.viewport_offset_pct*self.img_height
-            self.viewport_end_y=self.img_height-self.viewport_start_y
+        self.viewport_start_y=self.viewport_offset_pct*self.img_height
+        self.viewport_end_y=self.img_height-self.viewport_start_y
 
-            print(self.viewport_start_x,self.viewport_start_y,self.viewport_end_x,self.viewport_end_y)
+        print(self.viewport_start_x,self.viewport_start_y,self.viewport_end_x,self.viewport_end_y)
 
     def __set_position(self):
         _,x,y,z=self.result[HandDetector.codes.MIDDLE_FINGER_MCP]
@@ -96,8 +95,6 @@ class MouseControl:
         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,0,0)
 
     def process_frames(self,img):
-        self.__set_viewport_values(img)
-
         self.result=self.detector.get_hand_coordinates(img,hand="Right")
         if len(self.result):
             self.__set_position()
@@ -108,6 +105,7 @@ class MouseControl:
     
     def start(self):
         self.__reset()
+        self.__set_viewport_values()
         self.cam.get_frames(self.process_frames,True)
 
 

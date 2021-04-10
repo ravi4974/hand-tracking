@@ -4,6 +4,9 @@ class Camera:
     def __init__(self,video_capture_index=0,flip=False):
         self.cap = cv2.VideoCapture(0)
         self.flip=flip
+    
+    def get_dimension(self):
+        return (self.cap.get(cv2.CAP_PROP_FRAME_WIDTH),self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
     def get_frames(self,callback,show_window=False):
         if not callable(callback):
