@@ -1,11 +1,11 @@
 import win32api,win32con,math
 import numpy as np
-from camera import Camera
+from camera import WebCamera
 from hand_tracking import HandDetector
 
 class MouseControl:
     def __init__(self):
-        self.cam=Camera(flip=True)
+        self.cam=WebCamera(flip=True)
         self.detector=HandDetector(num_hands=1)
         self.screen_width=win32api.GetSystemMetrics(78)
         self.screen_height=win32api.GetSystemMetrics(79)

@@ -1,6 +1,6 @@
 import cv2
 import mediapipe as mp
-from camera import Camera
+from camera import WebCamera
 
 class HandDetector:
     codes=mp.solutions.hands.HandLandmark
@@ -50,7 +50,7 @@ class HandDetector:
     
 
 def main():
-    cam=Camera()
+    cam=WebCamera()
     detector=HandDetector()
     
     def process_frames(img):

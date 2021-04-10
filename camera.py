@@ -1,6 +1,6 @@
 import cv2
 
-class Camera:
+class WebCamera:
     def __init__(self,video_capture_index=0,flip=False):
         self.cap = cv2.VideoCapture(0)
         self.flip=flip
@@ -22,3 +22,11 @@ class Camera:
             if show_window:
                 cv2.imshow("image", img)
                 cv2.waitKey(1)
+
+if __name__=='__main__':
+    cam=WebCamera()
+
+    def process_frames(img):
+        pass
+
+    cam.get_frames(process_frames,show_window=True)
